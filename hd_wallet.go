@@ -18,6 +18,24 @@ type HdWallet struct {
 	seed     []byte
 }
 
+// NewRandomHdWallet Creates a random wallet from the given seed.
+func NewRandomHdWallet(entropy []byte) (*HdWallet, error) {
+	mnemonic, err := bip39.NewMnemonic(entropy)
+	if err != nil {
+		return nil, err
+	}
+	seed, err := getSeedFromMnemonic(mnemonic)
+	if err != nil {
+		return nil, err
+	}
+	wallet := &HdWallet{
+		mnemonic: mnemonic,
+		seed:     seed,
+	}
+
+	return wallet, nil
+}
+
 // NewHdWalletFromMnemonic returns a new hd wallet from a BIP-39 mnemonic.
 func NewHdWalletFromMnemonic(mnemonic string) (*HdWallet, error) {
 	if mnemonic == "" {
@@ -106,4 +124,8 @@ func (h *HdWallet) DerivePublicKeyForEd25519(path string) (ed25519.PublicKey, er
 	reader := bytes.NewReader(rawSeed[:])
 	pub, _, err := ed25519.GenerateKey(reader)
 	return pub, nil
+}
+
+func (h *HdWallet) GetMnemonic() string {
+	return h.mnemonic
 }

@@ -2,9 +2,10 @@ package networks
 
 import (
 	"fmt"
+	"hdwallet"
+
 	"github.com/ethereum/go-ethereum/common/hexutil"
 	"github.com/ethereum/go-ethereum/crypto"
-	"hdwallet"
 )
 
 // DeriveEthereumAddress DeriveAddress derives the account address of the derivation path.

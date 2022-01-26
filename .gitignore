@@ -23,3 +23,6 @@ go.work
 
 #IDE specific
 .idea
+
+#Project Specific
+.data

@@ -1,6 +1,7 @@
 package util
 
 import (
+	"errors"
 	"fmt"
 	"github.com/ethereum/go-ethereum/accounts"
 )
@@ -59,4 +60,15 @@ func getCoinType(hdPath string) (CoinType, error) {
 	coinType := componentCoinType ^ 0x80000000
 	fmt.Println("CoinType:", coinType)
 	return CoinType(coinType), nil
+}
+
+func GetBaseHdPath(coinType CoinType) (string, error) {
+	switch coinType {
+	case TypeEth:
+		{
+			return "m/44'/60'/0'/0/", nil
+		}
+	default:
+		return "", errors.New(fmt.Sprintf("HdPath not available for %d", coinType))
+	}
 }
